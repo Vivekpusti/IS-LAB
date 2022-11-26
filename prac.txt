@@ -1,0 +1,379 @@
+KMEANS
+
+# install.packages("factoextra")
+library(factoextra)
+iris
+iris.labels = iris$Species
+table(iris.labels)
+iris_data = iris[1:4]
+
+#scale
+iris_data_scaled = scale(iris_data)
+#distance
+iris_data <- dist(iris_data_scaled)
+
+fviz_nbclust(iris_data_scaled, kmeans , "wss") +
+  labs(subtitle = "Elbow Method")
+
+km.out <- kmeans(iris_data_scaled, centers = 3, nstart = 100)
+print(km.out)
+
+km.clusters <- km.out$cluster
+rownames(iris_data_scaled) <- paste(iris$Species , 1:dim(iris)[1], sep = "_")
+
+fviz_cluster(list(data = iris_data_scaled, cluster = km.clusters))
+table(km.clusters, iris$Species)
+
+--------------------------------------------------------
+# install.packages("factoextra")
+library(factoextra)
+iris <- read.csv("D:\\Users\\User\\Desktop\\Data.csv")
+iris.labels = iris$Purchased
+table(iris.labels)
+iris_data = iris[1:3]
+iris_data$Age = ifelse(is.na(iris_data$Age),
+                     ave(iris_data$Age, FUN = function (x)mean(x, na.rm = TRUE)),
+                     iris_data$Age)
+iris_data <- na.omit(iris_data)
+iris_data$Country = factor(iris_data$Country, 
+                         levels = c('India','Sri lanka','China'), 
+                         labels = c(1.0, 2.0 , 3.0 ))
+iris_data$Salary = ifelse(is.na(iris_data$Salary),
+                        ave(iris_data$Salary, FUN = function (x)mean(x, na.rm = TRUE)),
+                        iris_data$Salary)
+iris_data1 <- iris_data[2:3]
+
+#scale
+iris_data_scaled = scale(iris_data1)
+#distance
+iris_data1 <- dist(iris_data_scaled)
+
+fviz_nbclust(iris_data_scaled, kmeans , "wss") +
+  labs(subtitle = "Elbow Method")
+
+km.out <- kmeans(iris_data_scaled, centers = 3, nstart = 100)
+print(km.out)
+
+km.clusters <- km.out$cluster
+rownames(iris_data_scaled) <- paste(iris$Species , 1:dim(iris)[1], sep = "_")
+
+fviz_cluster(list(data = iris_data_scaled, cluster = km.clusters))
+table(km.clusters, iris$Species)
+
+
+
+preprocessing
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+dataset = pd.read_csv("/content/Data.csv")
+# dataset1 = dataset.dropna()
+# dataset1
+from sklearn.preprocessing import LabelEncoder
+Labelencoder = LabelEncoder()
+dataset.iloc[:,0] = Labelencoder.fit_transform(dataset.iloc[:,0])
+dataset.iloc[:,3] = Labelencoder.fit_transform(dataset.iloc[:,3])
+dataset
+
+from sklearn.impute import SimpleImputer
+# handling the missing data and replace missing values with nan from numpy and replace with mean of all the other values
+imputer = SimpleImputer(missing_values=np.nan, strategy='mean') 
+imputer = imputer.fit(dataset)
+dataset = imputer.transform(dataset)
+dataset
+
+import numpy as np
+import pandas as pd
+dataset = pd.DataFrame(dataset, columns = ['Country','Age','Salary','Purchased'])
+
+X = dataset.iloc[:,:3]
+y = dataset.iloc[:,3]
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y , test_size = 0.2, random_state = 24)
+
+from sklearn.preprocessing import StandardScaler  
+st_x= StandardScaler()  
+x_train1= st_x.fit_transform(X_train.iloc[:,1:3])  
+x_train1
+
+
+
+
+
+
+
+
+
+deffie hellman
+
+from random import randint
+ 
+if __name__ == '__main__':
+ 
+    # Both the persons will be agreed upon the
+    # public keys G and P
+    # A prime number P is taken
+    P = 23
+     
+    # A primitive root for P, G is taken
+    G = 9
+     
+      
+    print('The Value of P is :%d'%(P))
+    print('The Value of G is :%d'%(G))
+     
+    # Alice will choose the private key a
+    a = 4
+    print('The Private Key a for Alice is :%d'%(a))
+     
+    # gets the generated key
+    x = int(pow(G,a,P)) 
+     
+    # Bob will choose the private key b
+    b = 3
+    print('The Private Key b for Bob is :%d'%(b))
+    
+    # gets the generated key
+    y = int(pow(G,b,P)) 
+     
+     
+    # Secret key for Alice
+    ka = int(pow(y,a,P))
+     
+    # Secret key for Bob
+    kb = int(pow(x,b,P))
+     
+    print('Secret key for the Alice is : %d'%(ka))
+    print('Secret Key for the Bob is : %d'%(kb))
+
+
+
+
+
+
+
+
+rsa
+# Python for RSA asymmetric cryptographic algorithm.
+# For demonstration, values are
+# relatively small compared to practical application
+import math
+ 
+ 
+def gcd(a, h):
+    temp = 0
+    while(1):
+        temp = a % h
+        if (temp == 0):
+            return h
+        a = h
+        h = temp
+ 
+ 
+p = 3
+q = 7
+n = p*q
+e = 2
+phi = (p-1)*(q-1)
+ 
+while (e < phi):
+ 
+    # e must be co-prime to phi and
+    # smaller than phi.
+    if(gcd(e, phi) == 1):
+        break
+    else:
+        e = e+1
+ 
+# Private key (d stands for decrypt)
+# choosing d such that it satisfies
+# d*e = 1 + k * totient
+ 
+k = 2
+d = (1 + (k*phi))/e
+ 
+# Message to be encrypted
+msg = 12.0
+ 
+print("Message data = ", msg)
+ 
+# Encryption c = (msg ^ e) % n
+c = pow(msg, e)
+c = math.fmod(c, n)
+print("Encrypted data = ", c)
+ 
+# Decryption m = (c ^ d) % n
+m = pow(c, d)
+m = math.fmod(m, n)
+print("Original Message Sent = ", m)
+
+
+
+
+
+
+
+
+chinese
+
+# A Python3 program to demonstrate
+# working of Chinise remainder Theorem
+ 
+# k is size of num[] and rem[].
+# Returns the smallest number x
+# such that:
+# x % num[0] = rem[0],
+# x % num[1] = rem[1],
+# ..................
+# x % num[k-2] = rem[k-1]
+# Assumption: Numbers in num[]
+# are pairwise coprime (gcd for
+# every pair is 1)
+def findMinX(num, rem, k):
+    x = 1; # Initialize result
+ 
+    # As per the Chinise remainder
+    # theorem, this loop will
+    # always break.
+    while(True):
+         
+        # Check if remainder of
+        # x % num[j] is rem[j]
+        # or not (for all j from
+        # 0 to k-1)
+        j = 0;
+        while(j < k):
+            if (x % num[j] != rem[j]):
+                break;
+            j += 1;
+ 
+        # If all remainders
+        # matched, we found x
+        if (j == k):
+            return x;
+ 
+        # Else try next number
+        x += 1;
+ 
+# Driver Code
+num = [3, 4, 5];
+rem = [2, 3, 1];
+k = len(num);
+print("x is", findMinX(num, rem, k));
+
+
+
+
+extended euclidean
+
+# Python3 program to find multiplicative modulo
+# inverse using Extended Euclid algorithm.
+ 
+# Global Variables
+x, y = 0, 1
+ 
+# Function for extended Euclidean Algorithm
+ 
+ 
+def gcdExtended(a, b):
+    global x, y
+ 
+    # Base Case
+    if (a == 0):
+        x = 0
+        y = 1
+        return b
+ 
+    # To store results of recursive call
+    gcd = gcdExtended(b % a, a)
+    x1 = x
+    y1 = y
+ 
+    # Update x and y using results of recursive
+    # call
+    x = y1 - (b // a) * x1
+    y = x1
+ 
+    return gcd
+ 
+ 
+def modInverse(A, M):
+ 
+    g = gcdExtended(A, M)
+    if (g != 1):
+        print("Inverse doesn't exist")
+ 
+    else:
+ 
+        # m is added to handle negative x
+        res = (x % M + M) % M
+        print("Modular multiplicative inverse is ", res)
+ 
+ 
+# Driver Code
+if __name__ == "__main__":
+    A = 3
+    M = 11
+ 
+    # Function call
+    modInverse(A, M)
+    print("GCD: " gcdExtended(A,M))
+
+
+
+
+
+ip.txt
+hello
+hello ram
+hello nik
+nik is nik
+ram is ram
+
+
+
+
+
+reducer.py
+#!/usr/bin/python3
+
+"""reducer.py"""
+
+import sys
+prev_word=None
+prev_count=0
+
+for line in sys.stdin:
+    line=line.strip()
+    word,count=line.split('\t')
+    
+    count=int(count)
+    
+    if prev_word==word:
+       prev_count+=count
+    else:
+       if prev_word:
+          print('%s\t%s'%(prev_word,prev_count))
+       prev_count=count
+       prev_word=word
+if prev_word==word:
+   print('%s\t%s'%(prev_word,prev_count))
+
+
+
+
+mapper.py
+
+#!/usr/bin/python3
+"""mapper.py"""
+
+import sys
+for line in sys.stdin:
+    line=line.strip()
+    words=line.split()
+    for word in words:
+        print('%s\t%s'%(word,1))
+        
+
